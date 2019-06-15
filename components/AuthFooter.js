@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text,StyleSheet,TouchableOpacity,Platform} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { LoginManager } from "react-native-fbsdk";
 import { GoogleSignin,statusCodes } from 'react-native-google-signin';
 
 
@@ -13,7 +14,7 @@ GoogleSignin.configure({
     forceConsentPrompt: true, // [Android] if you want to show the authorization prompt at each login.
     accountName: '', // [Android] specifies an account name on the device that should be used
     iosClientId: '280069859300-aniuaejb7ubdqnnhn1ib9mn0ajpojm2j.apps.googleusercontent.com', // [iOS] optional, if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
-   // androidClientId:'280069859300-j1v3ubj3ieufs4dnpuee6mk93vjgjihk.apps.googleusercontent.com'
+    //androidClientId:'280069859300-j1v3ubj3ieufs4dnpuee6mk93vjgjihk.apps.googleusercontent.com'
   });
 
   
@@ -43,6 +44,25 @@ GoogleSignin.configure({
   };
 
 
+  _fbAuth = async () => {
+    LoginManager.logInWithReadPermissions(["public_profile"]).then(
+      function(result) {
+        if (result.isCancelled) {
+          console.log("Login cancelled");
+        } else {
+          console.log(
+            "Login success with permissions: " +
+              result.grantedPermissions.toString()
+          );
+        }
+      },
+      function(error) {
+        console.log("Login fail with error: " + error);
+      }
+    );
+  };
+
+
 
 const AuthFooter = (props) =>{
 
@@ -53,7 +73,7 @@ const AuthFooter = (props) =>{
        </View>
 
        <View style={{flexDirection:'row',marginTop:20, justifyContent:'space-evenly'}}>
-       <TouchableOpacity>
+       <TouchableOpacity onPress={this._fbAuth}>
        <Icon color='#FA2700' name="facebook-square" size={30} style={{alignSelf: 'center'}}/>
        </TouchableOpacity>
        <TouchableOpacity onPress={this.signIn}>
@@ -73,7 +93,7 @@ const styles = StyleSheet.create({
        //borderWidth:5,
         position:'absolute',
        //flex:1,
-       marginBottom:20,
+       //marginBottom:20,
         bottom:0,
         width: '100%',
         justifyContent: 'center',

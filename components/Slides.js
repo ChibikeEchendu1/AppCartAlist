@@ -18,24 +18,24 @@ class Slides extends Component{
                     <Icon
                       name="arrow-right"
                       size={15}
-                      color= "#FA2700"
+                      color= "#6A6A6A"
                     />
                   }
                   containerStyle={{marginTop:10,alignSelf:'center',width:100}}
-                  titleStyle={{color:'#FA2700'}}
+                  titleStyle={{color:'#6A6A6A'}}
                   iconRight />
 
                   <Button 
                 type='outline'
-                title="Sign Up"  raised onPress={this.props.onCompleteSign} icon={
+                title="Sign Up "  raised onPress={this.props.onCompleteSign} icon={
                     <Icon
                       name="arrow-right"
                       size={15}
-                      color= "#FA2700"
+                      color= "#6A6A6A"
                     />
                   }
                   containerStyle={{marginTop:10,alignSelf:'center',width:100}}
-                  titleStyle={{color:'#FA2700'}}
+                  titleStyle={{color:'#6A6A6A'}}
                   iconRight />
                   </View>
             )

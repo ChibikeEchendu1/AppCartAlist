@@ -78,7 +78,7 @@ class WelcomeScreen extends Component{
           return(
               <Animated.View  style={{
                 ...this.props.style,
-                opacity: fadeAnim,         // Bind opacity to animated value
+                opacity: fadeAnim, backgroundColor:'white'       // Bind opacity to animated value
               }}>
               <Image resizeMode='contain' style={{width:'100%', height:'100%'}} source={require('../images/logo.jpeg')}/>
               </Animated.View>
@@ -91,10 +91,7 @@ class WelcomeScreen extends Component{
 
 
     render(){
-
-        
-       
-        return(
+      return(
             this.renderButton()
         )
        }

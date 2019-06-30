@@ -1,7 +1,7 @@
 const emailvalid = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const passwordVaild = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
-const IP = 'http://192.168.0.16:5000'
-//const IP = 'http://localhost:5000'
+//const IP = 'http://192.168.0.16:5000'
+const IP = 'http://localhost:5000'
 
 import axios from 'axios'
 export const emailChanged = (text) =>{
@@ -135,4 +135,89 @@ export const loginUser = ({email, password}) =>{
     }
     
     
+}
+
+
+export const loginUserFB = ({namefb,emailfb}) =>{
+    console.log('we here');
+
+    return async (dispatch) => {
+    
+        
+        dispatch({type: 'Spinner', payload: true});
+        const emailLower = emailfb.toLowerCase()
+        const res = await axios.post(IP+'/api/user/loginFB',{namefb,emailLower});
+
+        console.log(res);
+        
+        if( typeof res.data.error != 'undefined'){
+                   dispatch({type: 'Password_Error', payload: res.data.error});
+                }
+               else{
+                  dispatch({type: 'Get_User', payload: res.data});
+                }
+
+            dispatch({type: 'Spinner', payload: false});
+        
+    
+
+    }
+    
+    
+}
+
+
+export const loginUserGoogle = ({namegoogle,emailgoogle}) =>{
+    console.log('we here');
+
+    return async (dispatch) => {
+    
+        
+        dispatch({type: 'Spinner', payload: true});
+        const emailLower = emailgoogle.toLowerCase()
+        const res = await axios.post(IP+'/api/user/loginGoogle',{namegoogle,emailLower});
+
+        console.log(res);
+        
+        if( typeof res.data.error != 'undefined'){
+                   dispatch({type: 'Password_Error', payload: res.data.error});
+                }
+               else{
+                  dispatch({type: 'Get_User', payload: res.data});
+                }
+
+            dispatch({type: 'Spinner', payload: false});
+        
+    
+
+    }
+    
+    
+}
+
+
+export const FetchItems = () =>{
+    console.log('we here');
+
+    return async (dispatch) => {
+    
+        
+        dispatch({type: 'Spinner', payload: true});
+        const res = await axios.get(IP+'/api/itemsapp'); 
+
+        console.log(res);
+        
+        if( typeof res.data.error != 'undefined'){
+                   dispatch({type: 'Password_Error', payload: res.data.error});
+                }
+               else{
+                  dispatch({type: 'Get_Items', payload: res.data});
+                }
+
+            dispatch({type: 'Spinner', payload: false});
+        
+    
+
+    }
+
 }

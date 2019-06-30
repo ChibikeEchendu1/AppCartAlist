@@ -25,6 +25,8 @@ console.log(action);
             return {...state, Loader:action.payload}
         case 'Get_User':
             return {...state, user:action.payload}
+        case 'Get_Items':
+            return {...state, items:action.payload}
         default:
             return state;
     }

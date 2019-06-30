@@ -28,7 +28,7 @@ class LoginScreenView extends Component{
 
     renderButton(){
         if(this.props.Loader){
-          return <ActivityIndicator style={{marginTop:10}} color="#F44336" size={'small'}/>//
+          return <ActivityIndicator style={{marginTop:10,alignSelf:'center'}} color="#F44336" size={'large'}/>//
         }
         else{
             return <Button onPress={this.onButtonPress.bind(this)} title='Login' type='outline' raised containerStyle={{marginTop:30,alignSelf:'center',width:'50%'}} titleStyle={{color:'white'}} buttonStyle={{ backgroundColor:'#FA2700', borderColor:'#FA2700', width:'100%'}}/>

@@ -13,7 +13,7 @@ import WelcomeScreen from './screens/WelcomeScreen'
 import LoginScreen from './screens/LoginScreen'
 import CreateListScreen from './screens/CreateListScreen'
 import ListOfListScreen from './screens/ListOfListScreen'
-import StoreSearch from './screens/StoreSearch'
+import HistorySearch from './screens/HistorySearch'
 import SignUpScreen from './screens/SignUpScreen'
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -63,18 +63,18 @@ const TabNavigator = createBottomTabNavigator({
   SignUpScreen:{screen:SignUpScreen},
   Main:{
     screen:createBottomTabNavigator({
-      Search:{screen: createStackNavigator({
-        StoreSearch:{screen:StoreSearch},
+      Receipts:{screen: createStackNavigator({
+        HistorySearch:{screen:HistorySearch},
     },)
   },
 
-  New:{screen: createStackNavigator({
+  Create:{screen: createStackNavigator({
     CreateListScreen:{screen:CreateListScreen},
 
-   },)
+   },{headerMode: 'none'})
 },
 
-Old:{screen: createStackNavigator({
+Lists:{screen: createStackNavigator({
   ListOfListScreen:{screen:ListOfListScreen},
 
 },)

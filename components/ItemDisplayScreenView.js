@@ -5,7 +5,7 @@ import _ from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import{ItemHouse}  from './ItemHouse'
 import {Footer} from './Footer'
-import {emailChanged,PasswordChanged,NameChanged,FetchItems} from '../actions'
+import {QuanChanged,SizeChanged,ItemChanged,NameChanged,FetchItems,addItem} from '../actions'
 import {connect} from 'react-redux'
 
 class ItemDisplayScreenView extends Component{
@@ -20,7 +20,7 @@ class ItemDisplayScreenView extends Component{
       }
 
       componentWillMount(){
-        this.props.FetchItems()
+       // this.props.FetchItems()
        }
 
       renderButton(){
@@ -40,15 +40,19 @@ class ItemDisplayScreenView extends Component{
       }
 
       renderRow(item){
-        return <ItemHouse ImagePath={item.ImagePath} Name={item.Name} />
+        return <ItemHouse ImagePath={item.ImagePath} Name={item.itemName} />
        }
-       onEmailC(text){
-        this.props.emailChanged(text)
+       onSizeC(text){
+        this.props.SizeChanged(text)
      }
      
-       onPasswordC(text){
-        this.props.PasswordChanged(text)
+     onItemC(text){
+        this.props.ItemChanged(text)
     }
+
+    onQuanC(text){
+      this.props.QuanChanged(text)
+  }
     onNameC(text){
         this.props.NameChanged(text)
     }
@@ -59,14 +63,17 @@ class ItemDisplayScreenView extends Component{
        // return  this.props.items;
 
         return this.props.items.filter(items => {
-                        return items.Name.toLowerCase().indexOf( this.props.name.toLowerCase()) !== -1
+                        return items.itemName.toLowerCase().indexOf( this.props.name.toLowerCase()) !== -1
                     })
       } 
 
     render(){
+      const { goBack } = this.props.navigation;
+      const { itemName,Size,Quan,items } = this.props;
         return(
             <SafeAreaView style={{flex:1}}>
-            <View style={{justifyContent:'space-between',flexDirection:'row',width:'100%'}}>
+             <Footer navigation={goBack} num={_.size(items)}/>
+            <View style={{justifyContent:'space-between',flexDirection:'row',marginTop:20,width:'100%'}}>
             <Input
                 placeholder='...Search'
                 leftIcon={
@@ -87,23 +94,23 @@ class ItemDisplayScreenView extends Component{
 
 </View>
 
-<View style={{justifyContent: 'flex-start', borderBottomWidth:1,marginTop:20,  height:Platform.OS === 'ios' ? '40%' :'40%', width:'100%'}}>
+<View style={{justifyContent: 'flex-start', borderBottomWidth:1,marginTop:20,  height:Platform.OS === 'ios' ? '30%' :'30%', width:'100%'}}>
         {
           this.renderButton()
         }
         </View>
 
-        <Text style={{width:'90%',marginTop:30,fontSize:20,marginLeft:'5%'}}>Add Item</Text>
+        <Text style={{width:'90%',marginTop:20,fontSize:20,marginLeft:'5%'}}>Add Item</Text>
 
         <Input
   placeholder='Item Name'
   
   containerStyle={{marginTop:10}}
-  value={this.props.name}
-  onChangeText = {this.onNameC.bind(this)}
+  value={this.props.itemName}
+  onChangeText = {this.onItemC.bind(this)}
   errorStyle={{ color: 'red',marginLeft:'5%' }}
   inputStyle={{marginLeft:7}}
-  errorMessage={this.props.NameError}
+  errorMessage={this.props.ItemError}
   inputContainerStyle={{width: '90%',alignSelf:'center'}}
 />
 
@@ -111,34 +118,34 @@ class ItemDisplayScreenView extends Component{
 <Input
   placeholder='Size'
  
-  onChangeText = {this.onEmailC.bind(this)}
-  value={this.props.email}
+  onChangeText = {this.onSizeC.bind(this)}
+  value={this.props.Size}
 
   inputStyle={{marginLeft:7}}
   errorStyle={{ color: 'red',marginLeft:'5%' }}
- errorMessage={this.props.EmailError}
+ errorMessage={this.props.SizeError}
   inputContainerStyle={{width: '90%',alignSelf:'center',marginTop:30}}
 />
 
 <Input
 
- value={this.props.password}
+ value={this.props.Quan}
   inputStyle={{marginLeft:7}}
-  onChangeText = {this.onPasswordC.bind(this)}
+  onChangeText = {this.onQuanC.bind(this)}
   placeholder='Quantity'
   errorStyle={{ color: 'red',marginLeft:'5%' }}
- errorMessage={this.props.PasswordError}
+ errorMessage={this.props.QuanError}
   inputContainerStyle={{width: '90%',alignSelf:'center',marginTop:30}}
 />
 
-        <TouchableOpacity style={{alignSelf:'flex-end',marginRight:30,marginTop:10}} onPress={()=> props.Active == "Done" ? props.navigation.navigate("Addprofile",{Id: props.Id}) : props.navigation.navigate("Code3",{Id: props.Id})}> 
+        <TouchableOpacity style={{alignSelf:'flex-end',marginRight:30,marginTop:10}} onPress={()=> this.props.addItem({itemName,Size,Quan})}> 
        <Icon name="plus" color='#FA2700' size={30} style={{alignSelf: 'flex-end'}}/>
          
           <Text style={{fontSize:15,color:'#282828'}}>Add</Text>
         
         </TouchableOpacity>
 
-        <Footer/>
+       
 
             </SafeAreaView>
         )
@@ -151,17 +158,19 @@ const mapStateToProps = state =>{
         return {...Val};
       });
     return{
-      email: state.auth.email,
-        password:state.auth.password,
+      QuanError:state.auth.QuanError,
+      Quan:state.auth.Quan,
         name:state.auth.name,
         NameError:state.auth.NameError,
-        EmailError:state.auth.EmailError,
-        PasswordError:state.auth.PasswordError,
+        Size:state.auth.Size,
+        SizeError:state.auth.SizeError,
         Loader:state.auth.Loader,
+        itemName:state.auth.itemName,
+        ItemError:state.auth.ItemError,
         items,
        
      }
 }
 
-export default connect(mapStateToProps,{emailChanged,PasswordChanged,NameChanged,FetchItems})(ItemDisplayScreenView);
+export default connect(mapStateToProps,{QuanChanged,SizeChanged,ItemChanged,NameChanged,FetchItems,addItem})(ItemDisplayScreenView);
 

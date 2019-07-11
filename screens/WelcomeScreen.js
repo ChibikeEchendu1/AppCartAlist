@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
-import {View,Image,Animated} from 'react-native'
+import {View,Image,Animated,AsyncStorage} from 'react-native'
 import Slides from '../components/Slides'
+import {logincheck} from '../actions'
+import {connect} from 'react-redux'
 
 
 const SLIDE_DATA = [
@@ -31,6 +33,7 @@ class WelcomeScreen extends Component{
      state = {
         fadeAnim: new Animated.Value(0), 
         splash:'',
+        move:''
     }
       
 
@@ -54,15 +57,27 @@ class WelcomeScreen extends Component{
       }
     ).start(() => {setTimeout (() => {
         this.setState({splash:'done'})
+        this.setState({move:'done'})
      }, 100);});
   })
           })
+
+          this.props.logincheck()
+
         }
 
 
         onSlideComplete = () =>{
             this.props.navigation.navigate('LoginScreen')
         }
+
+        Login(){
+          if (this.props.logedin) {
+            this.props.navigation.navigate('Main');
+        }
+        }
+
+       
 
         onSlideCompleteSign = () =>{
             this.props.navigation.navigate('SignUpScreen')
@@ -92,9 +107,19 @@ class WelcomeScreen extends Component{
 
     render(){
       return(
-            this.renderButton()
+            [this.renderButton(),this.Login()]
         )
        }
 }
 
-export default WelcomeScreen;
+const mapStateToProps = state =>{
+ 
+  return{
+    logedin: state.auth.logedin,
+      password:state.auth.password,
+   }
+}
+
+
+export default connect(mapStateToProps,{logincheck})(WelcomeScreen);
+

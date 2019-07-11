@@ -1,9 +1,27 @@
-const INITIAL_STATE = {email: '' ,password:'',name:'',EmailError:'',PasswordError:'',user:{},NameError:''};
+const INITIAL_STATE = {email: '' ,password:'',name:'',EmailError:'',PasswordError:'',user:{},NameError:'',items:[]};
 
 export default (state = INITIAL_STATE, action) =>{
 console.log(action);
 
     switch(action.type){
+
+        case 'Login_Done':
+            return {...state, logedin:true}
+
+        case 'Add_Item':
+            return {...state, items: [action.payload,...state.items]}
+        case 'Item_changed':
+            return {...state, itemName:action.payload}
+        case 'Quan_changed':
+            return {...state, Quan:action.payload}
+        case 'Size_changed':
+            return {...state, Size:action.payload}
+        case 'Size_Error':
+            return {...state, SizeError:action.payload}
+        case 'Quan_Error':
+            return {...state, QuanError:action.payload}
+        case 'Item_Error':
+            return {...state, ItemError:action.payload}
         case 'email_changed':
             return {...state, email:action.payload}
 

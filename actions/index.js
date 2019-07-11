@@ -2,6 +2,7 @@ const emailvalid = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+")
 const passwordVaild = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
 //const IP = 'http://192.168.0.16:5000'
 const IP = 'http://localhost:5000'
+import {AsyncStorage} from 'react-native';
 
 import axios from 'axios'
 export const emailChanged = (text) =>{
@@ -24,6 +25,71 @@ export const NameChanged = (text) =>{
     return {
         type: 'Name_changed',
         payload: text
+    }
+}
+
+export const ItemChanged = (text) =>{
+    return {
+        type: 'Item_changed',
+        payload: text
+    }
+}
+
+export const QuanChanged = (text) =>{
+    return {
+        type: 'Quan_changed',
+        payload: text
+    }
+}
+
+export const SizeChanged = (text) =>{
+    return {
+        type: 'Size_changed',
+        payload: text
+    }
+}
+
+
+
+export const logincheck = () => async dispatch => {
+    let token = await AsyncStorage.getItem('loginToken')
+    if (token) {
+        //dispatch action fblogin is done
+        console.log('fgdfgdfg');
+        
+        dispatch({type:'Login_Done',payload:token})
+    }
+}
+
+export const addItem = ({itemName,Size,Quan}) =>{
+    return async (dispatch) =>  {
+        if(itemName == '' || typeof itemName == 'undefined'){
+                    dispatch({type: 'Item_Error', payload: "Empty Field"});
+                    dispatch({type: 'Size_Error', payload: ""});
+                    dispatch({type: 'Quan_Error', payload: ""});
+                }
+            
+        else if(Size == '' || typeof Size == 'undefined'){
+                    dispatch({type: 'Size_Error', payload: "Empty Field"});
+                    dispatch({type: 'Quan_Error', payload: ""});
+                    dispatch({type: 'Item_Error', payload: ""});
+                }
+    
+        else if(Quan == '' || typeof Quan == 'undefined'  ){
+                    dispatch({type: 'Quan_Error', payload: "Empty Field"});
+                    dispatch({type: 'Size_Error', payload: ""});
+            dispatch({type: 'Item_Error', payload: ""});
+    
+        }
+        else{
+            dispatch({type: 'Add_Item', payload: {itemName,Size,Quan}});
+            dispatch({type: 'Size_Error', payload: ""});
+            dispatch({type: 'Item_Error', payload: ""});
+            dispatch({type: 'Quan_Error', payload: ""});
+            dispatch({type: 'Item_changed', payload: ""});
+            dispatch({type: 'Quan_changed', payload: ""});
+            dispatch({type: 'Size_changed', payload: ""});
+        }
     }
 }
 
@@ -79,6 +145,8 @@ export const SignUpUser =  ({name,email,password}) =>{
                     }
                    else{
                       dispatch({type: 'Get_User', payload: res.data});
+                await   AsyncStorage.setItem('loginToken', res.data._id)
+                dispatch({type:'Login_Done',payload:res.data._id})
                     }
                 dispatch({type: 'Spinner', payload: false});
             
@@ -126,6 +194,10 @@ export const loginUser = ({email, password}) =>{
                 }
                else{
                   dispatch({type: 'Get_User', payload: res.data});
+            await AsyncStorage.setItem('loginToken', res.data._id)
+            dispatch({type:'Login_Done',payload:res.data._id})
+
+
                 }
 
             dispatch({type: 'Spinner', payload: false});
@@ -155,6 +227,9 @@ export const loginUserFB = ({namefb,emailfb}) =>{
                 }
                else{
                   dispatch({type: 'Get_User', payload: res.data});
+            await  AsyncStorage.setItem('loginToken', res.data._id)
+            dispatch({type:'Login_Done',payload:res.data._id})
+
                 }
 
             dispatch({type: 'Spinner', payload: false});
@@ -184,6 +259,9 @@ export const loginUserGoogle = ({namegoogle,emailgoogle}) =>{
                 }
                else{
                   dispatch({type: 'Get_User', payload: res.data});
+           await AsyncStorage.setItem('loginToken', res.data._id)
+            dispatch({type:'Login_Done',payload:res.data._id})
+
                 }
 
             dispatch({type: 'Spinner', payload: false});

@@ -22,6 +22,12 @@ class LoginScreenView extends Component{
        this.props.emailChanged(text)
     }
 
+    Login(){
+      if (this.props.logedin) {
+        this.props.navigation.navigate('Main');
+    }
+    }
+
     onPasswordC(text){
         this.props.PasswordChanged(text)
     }
@@ -90,6 +96,7 @@ leftIcon={
             this.props.navigation.navigate('SignUpScreen')} style={{alignItems:'center'}}><Text style={{marginTop:30}}>New User? <Text style={{color:'#FA2700'}}>SignUp</Text> </Text></TouchableOpacity>
 
 <AuthFooter use='Or Login with'/>
+{this.Login()}
             </SafeAreaView>
         )
     }
@@ -101,7 +108,8 @@ const mapStateToProps = state =>{
         password:state.auth.password,
         EmailError:state.auth.EmailError,
         PasswordError:state.auth.PasswordError,
-        Loader:state.auth.Loader
+        Loader:state.auth.Loader,
+        logedin:state.auth.logedin
     }
 }
 

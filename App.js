@@ -8,13 +8,16 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View,SafeAreaView} from 'react-native';
-import { createAppContainer, createBottomTabNavigator, createStackNavigator, } from 'react-navigation';
-import WelcomeScreen from './screens/WelcomeScreen'
+import { createAppContainer, createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import WelcomeScreenPage from './screens/WelcomeScreenPage'
 import LoginScreen from './screens/LoginScreen'
 import CreateListScreen from './screens/CreateListScreen'
 import ListOfListScreen from './screens/ListOfListScreen'
 import HistorySearch from './screens/HistorySearch'
 import SignUpScreen from './screens/SignUpScreen'
+import ItemDisplayScreen from './screens/ItemDisplayScreen'
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -58,32 +61,83 @@ const styles = StyleSheet.create({
 });
 
 const TabNavigator = createBottomTabNavigator({
-  WelcomeScreen:{screen:WelcomeScreen},
-  LoginScreen:{screen:LoginScreen},
-  SignUpScreen:{screen:SignUpScreen},
+  WelcomeScreenPage:{screen:WelcomeScreenPage, navigationOptions: {
+    gesturesEnabled: false,
+    headerLeft:null,
+    tabBarVisible:false
+}},
+  LoginScreen:{screen:LoginScreen, navigationOptions: {
+    gesturesEnabled: false,
+    headerLeft:null,
+    tabBarVisible:false
+}},
+  SignUpScreen:{screen:SignUpScreen, navigationOptions: {
+    gesturesEnabled: false,
+    headerLeft:null,
+    tabBarVisible:false
+}},
   Main:{
     screen:createBottomTabNavigator({
-      Receipts:{screen: createStackNavigator({
+      History:{screen: createStackNavigator({
         HistorySearch:{screen:HistorySearch},
-    },)
+    },),navigationOptions: {
+      gesturesEnabled: false,
+      headerLeft:null,
+      tabBarIcon: ({ tintColor }) => (
+        <Icon name="history" size={25} color={tintColor} />
+      )
+  }
   },
 
-  Create:{screen: createStackNavigator({
+  Home:{screen: createStackNavigator({
     CreateListScreen:{screen:CreateListScreen},
-
-   },{headerMode: 'none'})
+    ItemDisplayScreen:{screen:ItemDisplayScreen}
+   },{headerMode: 'none'}),navigationOptions: {
+    gesturesEnabled: false,
+    headerLeft:null,
+    tabBarIcon: ({ tintColor }) => (
+      <Icon name="home" size={25} color={tintColor} />
+    )
+}
 },
 
 Lists:{screen: createStackNavigator({
   ListOfListScreen:{screen:ListOfListScreen},
 
-},)
-},
-  
+}),navigationOptions: {
+  gesturesEnabled: false,
+  headerLeft:null,
+  tabBarIcon: ({ tintColor }) => (
+    <Icon name="list-ul" size={25} color={tintColor} />
+  )
+}
+}
 
 
-})
+
+
+}, {
+  initialRouteName: 'Home',
+  tabBarOptions:{
+  activeTintColor: '#FA2700',
+  inactiveColor: '#3e2465',
+  showIcon: true ,
+  style: {
+    backgroundColor: 'white',
+  }
+ // barStyle: { backgroundColor: '#FA2700' },
+ // activeBackgroundColor: '#FA2700',
+  }
+}),navigationOptions: {
+  gesturesEnabled: false,
+  headerLeft:null,
+  tabBarVisible:false
+}
   }
 })
+
+
+
+
 
 export default createAppContainer(TabNavigator);

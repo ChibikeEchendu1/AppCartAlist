@@ -22,6 +22,12 @@ class SignOutScreenView extends Component{
         this.props.emailChanged(text)
      }
 
+     Login(){
+      if (this.props.logedin) {
+        this.props.navigation.navigate('Main');
+    }
+    }
+
      renderButton(){
         if(this.props.Loader){
           return <ActivityIndicator style={{marginTop:10}} color="#F44336" size={'small'}/>//
@@ -110,6 +116,8 @@ leftIcon={
             this.props.navigation.navigate('LoginScreen')} style={{alignItems:'center'}}><Text style={{marginTop:30}}>Already a member? <Text style={{color:'#FA2700'}}>Login</Text> </Text></TouchableOpacity>
 
 <AuthFooter use='Or SignUp with'/>
+
+       {this.Login()}
             </SafeAreaView>
         )
     }
@@ -123,7 +131,9 @@ const mapStateToProps = state =>{
         NameError:state.auth.NameError,
         EmailError:state.auth.EmailError,
         PasswordError:state.auth.PasswordError,
-        Loader:state.auth.Loader
+        Loader:state.auth.Loader,
+        logedin:state.auth.logedin
+
         
     }
 }

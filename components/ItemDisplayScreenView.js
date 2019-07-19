@@ -3,9 +3,9 @@ import {SafeAreaView,View,TouchableOpacity,Text,ListView,Platform,ActivityIndica
 import { Input,Button } from 'react-native-elements';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import{ItemHouse}  from './ItemHouse'
+import ItemHouse  from './ItemHouse'
 import {Footer} from './Footer'
-import {QuanChanged,SizeChanged,ItemChanged,NameChanged,FetchItems,addItem} from '../actions'
+import {QuanChanged,SizeChanged,ItemChanged,NameChanged,FetchItems,addItem,clear} from '../actions'
 import {connect} from 'react-redux'
 
 class ItemDisplayScreenView extends Component{
@@ -15,6 +15,7 @@ class ItemDisplayScreenView extends Component{
         super(props);
       this.state = {
         log:'',
+        name:this.props.navigation.state.params.name,
         }
         this.renderRow=this.renderRow.bind(this);
       }
@@ -32,15 +33,15 @@ class ItemDisplayScreenView extends Component{
           rowHasChanged: (r1, r2) => r1 !== r2
       });
       this.dataSource = ds.cloneWithRows(this.getItems())
-         return <ListView style={{height:'80%'}}
+         return <ListView style={{height:'100%'}}
         dataSource={this.dataSource}
         enableEmptySections={true}
         renderRow={this.renderRow}/>;
       }
       }
 
-      renderRow(item){
-        return <ItemHouse ImagePath={item.ImagePath} Name={item.itemName} />
+      renderRow(item,sectionID, rowID){
+        return <ItemHouse ImagePath={item.ImagePath} num ={rowID} item={item} Name={item.itemName} />
        }
        onSizeC(text){
         this.props.SizeChanged(text)
@@ -67,12 +68,17 @@ class ItemDisplayScreenView extends Component{
                     })
       } 
 
+      onButtonPress(){
+        //const {email,password} = this.props;
+       this.props.clear();
+      }
+
     render(){
-      const { goBack } = this.props.navigation;
+      const { goBack,navigate } = this.props.navigation;
       const { itemName,Size,Quan,items } = this.props;
         return(
             <SafeAreaView style={{flex:1}}>
-             <Footer navigation={goBack} num={_.size(items)}/>
+             <Footer nav={navigate} name={this.state.name} item={this.props.items} navigation={goBack} num={_.size(items)}/>
             <View style={{justifyContent:'space-between',flexDirection:'row',marginTop:20,width:'100%'}}>
             <Input
                 placeholder='...Search'
@@ -83,7 +89,7 @@ class ItemDisplayScreenView extends Component{
                     color='#FA2700'
                     />
                 }
-  containerStyle={{width:'90%',marginBottom:10}}
+  containerStyle={{width:'80%',marginBottom:10}}
   value={this.props.name}
   onChangeText = {this.onNameC.bind(this)}
   errorStyle={{ color: 'red',marginLeft:'5%' }}
@@ -91,6 +97,8 @@ class ItemDisplayScreenView extends Component{
   errorMessage={this.props.NameError}
   inputContainerStyle={{width: '100%'}}
 />
+
+<Button onPress={this.onButtonPress.bind(this)}  title='clear' type='outline' raised containerStyle={{alignSelf:'center',width:'15%',marginRight:'3%'}} titleStyle={{color:'white'}} buttonStyle={{ backgroundColor:'#FA2700', borderColor:'#FA2700', width:'100%'}}/>
 
 </View>
 
@@ -154,23 +162,22 @@ class ItemDisplayScreenView extends Component{
 }
 
 const mapStateToProps = state =>{
-    const items = _.map(state.auth.items,(Val,uid) =>{
+    const items = _.map(state.item.items,(Val,uid) =>{
         return {...Val};
       });
     return{
-      QuanError:state.auth.QuanError,
-      Quan:state.auth.Quan,
+      QuanError:state.item.QuanError,
+      Quan:state.item.Quan,
         name:state.auth.name,
         NameError:state.auth.NameError,
-        Size:state.auth.Size,
-        SizeError:state.auth.SizeError,
+        Size:state.item.Size,
+        SizeError:state.item.SizeError,
         Loader:state.auth.Loader,
-        itemName:state.auth.itemName,
-        ItemError:state.auth.ItemError,
+        itemName:state.item.itemName,
+        ItemError:state.item.ItemError,
         items,
-       
-     }
+      }
 }
 
-export default connect(mapStateToProps,{QuanChanged,SizeChanged,ItemChanged,NameChanged,FetchItems,addItem})(ItemDisplayScreenView);
+export default connect(mapStateToProps,{QuanChanged,SizeChanged,ItemChanged,NameChanged,FetchItems,addItem,clear})(ItemDisplayScreenView);
 

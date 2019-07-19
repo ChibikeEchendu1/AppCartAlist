@@ -21,6 +21,13 @@ export const PasswordChanged = (text) =>{
     }
 }
 
+export const return_Item = ()=>{
+    return {
+        type: 'return_Item',
+        payload: ''
+    }
+}
+
 export const NameChanged = (text) =>{
     return {
         type: 'Name_changed',
@@ -52,12 +59,36 @@ export const SizeChanged = (text) =>{
 
 
 export const logincheck = () => async dispatch => {
+  //await  AsyncStorage.removeItem('loginToken')
     let token = await AsyncStorage.getItem('loginToken')
     if (token) {
         //dispatch action fblogin is done
-        console.log('fgdfgdfg');
+        console.log(token);
         
         dispatch({type:'Login_Done',payload:token})
+    }
+}
+
+
+export const clear = ()=>{
+    return {
+        type: 'item_clered',
+        payload: null
+    }
+}
+
+
+export const delItem = ({num}) =>{
+    return {
+        type: 'Item_remove',
+        payload: num
+    }
+}
+
+export const itemclered = () =>{
+    return {
+        type: 'item_clered',
+        payload: null
     }
 }
 
@@ -145,7 +176,7 @@ export const SignUpUser =  ({name,email,password}) =>{
                     }
                    else{
                       dispatch({type: 'Get_User', payload: res.data});
-                await   AsyncStorage.setItem('loginToken', res.data._id)
+                await AsyncStorage.setItem('loginToken', JSON.stringify(res.data))
                 dispatch({type:'Login_Done',payload:res.data._id})
                     }
                 dispatch({type: 'Spinner', payload: false});
@@ -194,7 +225,7 @@ export const loginUser = ({email, password}) =>{
                 }
                else{
                   dispatch({type: 'Get_User', payload: res.data});
-            await AsyncStorage.setItem('loginToken', res.data._id)
+            await AsyncStorage.setItem('loginToken', JSON.stringify(res.data))
             dispatch({type:'Login_Done',payload:res.data._id})
 
 
@@ -227,7 +258,7 @@ export const loginUserFB = ({namefb,emailfb}) =>{
                 }
                else{
                   dispatch({type: 'Get_User', payload: res.data});
-            await  AsyncStorage.setItem('loginToken', res.data._id)
+            await AsyncStorage.setItem('loginToken', JSON.stringify(res.data))
             dispatch({type:'Login_Done',payload:res.data._id})
 
                 }
@@ -259,8 +290,8 @@ export const loginUserGoogle = ({namegoogle,emailgoogle}) =>{
                 }
                else{
                   dispatch({type: 'Get_User', payload: res.data});
-           await AsyncStorage.setItem('loginToken', res.data._id)
-            dispatch({type:'Login_Done',payload:res.data._id})
+           await AsyncStorage.setItem('loginToken', JSON.stringify(res.data))
+            dispatch({type:'Login_Done',payload:JSON.stringify(res.data._id)})
 
                 }
 
@@ -299,3 +330,63 @@ export const FetchItems = () =>{
     }
 
 }
+
+export const FetchLocations = () =>{
+    console.log('we here');
+
+    return async (dispatch) => {
+    
+        
+        dispatch({type: 'Spinner', payload: true});
+        const res = await axios.get(IP+'/api/locationsapp'); 
+
+        console.log(res);
+        
+        if( typeof res.data.error != 'undefined'){
+                   dispatch({type: 'Name_Error', payload: res.data.error});
+                }
+               else{
+                  dispatch({type: 'Get_Items', payload: res.data});
+                }
+
+            dispatch({type: 'Spinner', payload: false});
+        
+    
+
+    }
+
+}
+
+
+export const setLocation = ({Name,_id}) =>{
+    console.log('we here');
+
+    return async (dispatch) => {
+    
+        
+        dispatch({type: 'Spinner', payload: true});
+        const res = await axios.post(IP+'/api/locationsapp',{Name,_id}); 
+
+        console.log(res);
+        
+        if( typeof res.data.error != 'undefined'){
+                   dispatch({type: 'Password_Error', payload: res.data.error});
+                }
+               else{
+                await AsyncStorage.setItem('loginToken', JSON.stringify(res.data))
+                dispatch({type:'Login_Done',payload:res.data._id})
+                }
+
+            dispatch({type: 'Spinner', payload: false});
+        
+    
+
+    }
+
+}
+
+
+
+
+
+

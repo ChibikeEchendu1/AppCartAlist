@@ -73,7 +73,7 @@ class AuthFooter extends Component {
     }
   };
 
-  _responseInfoCallback(error: ?Object, result: ?Object) {
+  _responseInfoCallback(error: ?Object, result: ?Object){
     if (error) {
       console.log('Error fetching data: ' + error.toString());
     } else {

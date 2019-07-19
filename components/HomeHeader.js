@@ -5,8 +5,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const HomeHeader = (props) =>{
     return(
     <View style={styles.viewStyle}>
-<TouchableOpacity onPress={() =>props.navigate()} style={{ justifyContent:'flex-start'}}><Icon color='#FA2700' name="chevron-left" size={30} style={{alignSelf: 'center',marginLeft:20}}/></TouchableOpacity>
-<View><Text style={{fontSize:30,alignSelf:'center', marginLeft:20}}>{props.title}</Text></View></View>
+<TouchableOpacity onPress={() => { props.navigation() }} style={{ justifyContent:'flex-start'}}><Icon color='#FA2700' name="chevron-left" size={30} style={{alignSelf: 'center',marginLeft:20}}/></TouchableOpacity>
+<View><Text style={{fontSize:30,alignSelf:'center',color:'#FA2700', marginLeft:20}}>{props.title}</Text></View></View>
     );
 }
 
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         alignItems:'flex-start',
        justifyContent:'space-between',
         flexDirection: 'column',
-        marginBottom:35,
+        marginBottom:'10%',
         width: '100%',
         height: '13%',
        // backgroundColor: 'white',

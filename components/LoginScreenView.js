@@ -23,7 +23,7 @@ class LoginScreenView extends Component{
     }
 
     Login(){
-      if (this.props.logedin) {
+      if (this.props.logedin){
         this.props.navigation.navigate('Main');
     }
     }

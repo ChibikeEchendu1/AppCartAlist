@@ -19,7 +19,7 @@ const Footer = (props) =>{
           <Text style={{fontSize:15, color:"#FA2700"}}>Items</Text>
           </View>
         </View>
-       <TouchableOpacity style={{alignSelf:'center',marginRight:30}} onPress={()=>  props.navigation.navigate("Addprofile")}> 
+       <TouchableOpacity style={{alignSelf:'center',marginRight:30}} onPress={()=>  props.nav("ReviewScreen",{name:props.name,item:props.item})}> 
        <Icon name="chevron-right" color='#FA2700' size={30} style={{alignSelf: 'center'}}/>
          
           <Text style={{fontSize:15,color:'#282828'}}>Review</Text>

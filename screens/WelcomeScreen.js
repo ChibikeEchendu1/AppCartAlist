@@ -38,7 +38,9 @@ class WelcomeScreen extends Component{
       
 
 
-    componentDidMount () {  
+    async componentDidMount () {  
+
+       
 
         Animated.timing(                  // Animate over time
             this.state.fadeAnim,            // The animated value to drive

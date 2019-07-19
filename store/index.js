@@ -8,7 +8,8 @@ import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
     key: 'root',
-    storage
+    storage,
+    whitelist: ['item']
   };
 
   const persistedReducer = persistReducer(persistConfig, reducers);
@@ -18,6 +19,6 @@ const persistConfig = {
 
 export default () => {
     const store=createStore(persistedReducer, {},compose(applyMiddleware(ReduxThunk)))
-    return { store, persistor: persistStore(store) };
+    return { store, persistor: persistStore(store) };//.purge() 
   };
 //export default store;

@@ -13,7 +13,7 @@ const Header = (props) =>{
 
     <View numberOfLines={1} style={{alignSelf:'center',alignItems:'center',marginTop:'8%', marginLeft:'10%' , marginRight:'10%',top: 0,}}>
         <View>
-        <Text style={{fontSize:25,fontWeight:'bold', color:"white", alignSelf:'center'}}>3</Text>
+        <Text style={{fontSize:25,fontWeight:'bold', color:"white", alignSelf:'center'}}>{props.List}</Text>
           <Text style={{fontSize:15, color:"white"}}>Lists</Text>
           </View>
         </View>
@@ -21,8 +21,8 @@ const Header = (props) =>{
         
     </View>
     <View style={{marginLeft:10,marginBottom:10}}>
-        <Text style={{color:"white",fontSize:20}}>gyuybhjkbjyfh bjhbhj</Text>
-        <Text style={{color:"white"}}>Enugu</Text>
+        <Text style={{color:"white",fontSize:20}}>{props.Name}</Text>
+        <Text style={{color:"white"}}>{props.location}</Text>
     </View>
     </View>
 

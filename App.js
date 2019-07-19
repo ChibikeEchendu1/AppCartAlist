@@ -15,7 +15,10 @@ import CreateListScreen from './screens/CreateListScreen'
 import ListOfListScreen from './screens/ListOfListScreen'
 import HistorySearch from './screens/HistorySearch'
 import SignUpScreen from './screens/SignUpScreen'
+import ListNameScreen from './screens/ListNameScreen'
 import ItemDisplayScreen from './screens/ItemDisplayScreen'
+import ReviewScreen from './screens/ReviewScreen'
+import LocationSelectScreen from './screens/LocationSelectScreen'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const instructions = Platform.select({
@@ -91,7 +94,10 @@ const TabNavigator = createBottomTabNavigator({
 
   Home:{screen: createStackNavigator({
     CreateListScreen:{screen:CreateListScreen},
-    ItemDisplayScreen:{screen:ItemDisplayScreen}
+    LocationSelectScreen:{screen:LocationSelectScreen},
+    ItemDisplayScreen:{screen:ItemDisplayScreen},
+    ListNameScreen:{screen:ListNameScreen},
+    ReviewScreen:{screen:ReviewScreen}
    },{headerMode: 'none'}),navigationOptions: {
     gesturesEnabled: false,
     headerLeft:null,

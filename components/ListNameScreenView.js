@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
-import {SafeAreaView,View,TouchableOpacity,Text} from 'react-native'
+import {SafeAreaView,TouchableOpacity} from 'react-native'
 import { Input,Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {HomeHeader} from './HomeHeader';
 import {NameChanged} from '../actions'
 import {connect} from 'react-redux'
 
-class CreateListScreenView extends Component{
+class ListNameScreenView extends Component{
 
     onNameC(text){
         this.props.NameChanged(text)
     }
 
     render(){
+        const { goBack } = this.props.navigation;
         return(
             <SafeAreaView style={{flex:1,justifyContent:'space-between'}}>
-            <HomeHeader title='Name The List '/>
+            <HomeHeader navigation={goBack}  title='List Name'/>
 
             <Input
   placeholder='List Name'
@@ -34,7 +35,12 @@ class CreateListScreenView extends Component{
   inputContainerStyle={{width: '90%',alignSelf:'center'}}
 />
 
-<TouchableOpacity onPress={() =>props.navigate()} style={{ justifyContent:'flex-start'}}><Icon color='#FA2700' name="chevron-right" size={30} style={{alignSelf: 'flex-end',marginRight:20,marginBottom:70}}/></TouchableOpacity>
+<TouchableOpacity onPress={() => {
+    if (this.props.name) {
+        this.props.navigation.navigate('ItemDisplayScreen',{name:this.props.name})
+    }
+    
+    }} style={{ justifyContent:'flex-start'}}><Icon color='#FA2700' name="chevron-right" size={30} style={{alignSelf: 'flex-end',marginRight:20,marginBottom:70}}/></TouchableOpacity>
 
             </SafeAreaView>
         )
@@ -52,5 +58,5 @@ const mapStateToProps = state =>{
     }
 }
 
-export default connect(mapStateToProps,{NameChanged})(CreateListScreenView);
+export default connect(mapStateToProps,{NameChanged})(ListNameScreenView);
 
